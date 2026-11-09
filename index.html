@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CSC, SEN and IFT 300-level timetable, first semester 2026/2027</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@700;900&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --bg:#000;--surface:#0b0b0b;--surface-2:#171717;--line:#2a2a2a;--text:#fff;--muted:#a8a8a8;
+  --pink:#ff2e93;--blue:#2f6bff;
+  --green:#2fd67b;--green-text:#6ff0a9;--green-fill:rgba(47,214,123,.14);
+  --purple:#9b5cff;--purple-text:#c3a1ff;--purple-fill:rgba(155,92,255,.17);
+  --blue-text:#7ea6ff;--blue-fill:rgba(47,107,255,.17);
+  --red:#ff4d4d;--on:#000;--focus:#fff;
+  --display:"Unbounded","Arial Black","Helvetica Neue",Arial,sans-serif;
+  --body:"Figtree","Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+}
+:root[data-theme="light"]{
+  --bg:#fff;--surface:#f7f7f7;--surface-2:#ececec;--line:#dcdcdc;--text:#000;--muted:#555;
+  --pink:#e0007a;--blue:#1f55e0;
+  --green:#0f8a43;--green-text:#0b6e35;--green-fill:rgba(15,138,67,.1);
+  --purple:#7c2bd9;--purple-text:#6a1fbf;--purple-fill:rgba(124,43,217,.1);
+  --blue-text:#1a4acb;--blue-fill:rgba(31,85,224,.09);
+  --red:#d11a1a;--on:#fff;--focus:#000;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 8px)}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--body);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+button,input,summary{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.wrap{max-width:1320px;margin:0 auto;padding:0 20px}
+
+.hero{padding:26px 0 20px;display:flex;align-items:flex-end;gap:8px 28px;flex-wrap:wrap}
+.big{font-family:var(--display);font-weight:900;line-height:.8;margin:0;font-size:clamp(84px,12vw,140px);letter-spacing:-.06em;color:var(--pink);text-shadow:.045em .045em 0 var(--blue)}
+.hero-copy{flex:1 1 300px;padding-bottom:4px}
+.hero h1{font-family:var(--display);font-weight:700;font-size:clamp(18px,2.4vw,26px);line-height:1.2;margin:0 0 8px;letter-spacing:-.02em}
+.hero p{margin:0;color:var(--muted);font-size:15px}
+.hero p+p{margin-top:2px}
+.hero strong{color:var(--text);font-weight:600}
+
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.bar .wrap{padding-top:12px;padding-bottom:12px;display:grid;gap:10px}
+.progs{display:flex;flex-wrap:wrap;gap:8px}
+.pbtn{flex:1 1 150px;max-width:260px;height:48px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:9px;font-weight:700;font-size:16px}
+.pbtn small{font-weight:500;font-size:13px;opacity:.75}
+.pbtn:hover{border-color:var(--text)}
+.pbtn .dot{width:12px;height:12px}
+.pbtn[aria-pressed="true"]{background:var(--c,var(--text));border-color:var(--c,var(--text));color:var(--on)}
+.pbtn[data-p="all"][aria-pressed="true"]{--c:var(--text);color:var(--bg)}
+.tri{display:inline-flex;gap:3px}
+.tri i{width:8px;height:12px;border-radius:2px;display:block}
+.dot{width:10px;height:10px;border-radius:50%;flex:none;display:inline-block}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.search{flex:1 1 280px;min-width:0;display:flex;align-items:center;gap:8px;background:var(--surface);border:1.5px solid var(--line);border-radius:10px;padding:0 12px;height:42px}
+.search:focus-within{border-color:var(--pink)}
+.search input{flex:1;min-width:0;background:none;border:0;outline:0;height:100%}
+.search input::placeholder{color:var(--muted)}
+.search svg{flex:none;color:var(--muted)}
+.tools{display:flex;gap:6px;margin-left:auto}
+.btn{height:42px;min-width:42px;padding:0 12px;border-radius:10px;border:1.5px solid var(--line);background:var(--surface);cursor:pointer;display:inline-flex;align-items:center;justify-content:center}
+.btn:hover{border-color:var(--text)}
+.days{display:none;gap:6px}
+.days button{flex:1;height:38px;border-radius:10px;border:1.5px solid var(--line);background:var(--surface);cursor:pointer;font-weight:600}
+.days button[aria-pressed="true"]{background:var(--text);border-color:var(--text);color:var(--bg)}
+.status{font-size:14px;color:var(--muted)}
+.status:empty{display:none}
+.status button{background:none;border:0;padding:0;color:var(--text);text-decoration:underline;cursor:pointer;font-weight:600}
+
+main{padding:18px 0 120px}
+.legend{display:flex;flex-wrap:wrap;gap:4px 22px;margin:0 0 14px;font-size:14px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:8px}
+.legend b{color:var(--text);font-weight:600}
+.stripe{display:inline-block;width:5px;height:14px;border-radius:2px;background:linear-gradient(to bottom,var(--green) 0 33.3%,var(--purple) 33.3% 66.6%,var(--blue) 66.6%)}
+.scroller{overflow-x:auto;border:1.5px solid var(--line);border-radius:14px;background:var(--surface)}
+.grid{display:grid;grid-template-columns:92px repeat(5,minmax(200px,1fr));min-width:1100px}
+.dayhead{position:sticky;top:0;padding:12px 14px;font-family:var(--display);font-weight:700;font-size:14px;border-bottom:1.5px solid var(--line);border-left:1.5px solid var(--line);background:var(--surface-2)}
+.corner{background:var(--surface-2);border-bottom:1.5px solid var(--line)}
+.time{padding:12px;font-weight:600;font-size:13px;color:var(--muted);border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+.cell{position:relative;padding:8px;border-left:1.5px solid var(--line);border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:6px;min-height:64px}
+.grid>:nth-last-child(-n+6){border-bottom:0}
+.cell.clash{box-shadow:inset 0 0 0 2px var(--red)}
+.clashtag{font-size:12px;font-weight:700;color:var(--red)}
+.chip{position:relative;border:0;cursor:pointer;text-align:left;border-radius:8px;padding:7px 10px 8px 15px;display:flex;flex-direction:column;gap:1px;line-height:1.25;width:100%;min-width:0;background:var(--surface-2);transition:opacity .15s,filter .15s}
+.chip::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;border-radius:8px 0 0 8px;background:var(--bar,var(--muted))}
+.chip.green{--bar:var(--green);background:var(--green-fill)}
+.chip.purple{--bar:var(--purple);background:var(--purple-fill)}
+.chip.blue{--bar:var(--blue);background:var(--blue-fill)}
+.chip .top{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.chip b{font-weight:700;font-size:14px}
+.chip.green b{color:var(--green-text)}.chip.purple b{color:var(--purple-text)}.chip.blue b{color:var(--blue-text)}
+.chip em{font-style:normal;font-size:12.5px;color:var(--muted);font-weight:600;white-space:nowrap}
+.chip .lec{font-size:13px;color:var(--text);opacity:.9}
+.chip .lec.none{color:var(--muted);font-style:italic;opacity:1}
+.chip .tag{font-size:11.5px;color:var(--muted);font-weight:600;margin-top:1px}
+.chip:hover{filter:brightness(1.2)}
+.chip[aria-pressed="true"]{outline:2px solid var(--text);outline-offset:-2px}
+.has-sel .chip:not([aria-pressed="true"]){opacity:.15}
+.empty{padding:48px 20px;text-align:center;color:var(--muted)}
+.empty strong{display:block;color:var(--text);font-size:18px;margin-bottom:4px}
+.about{margin-top:22px;max-width:80ch;color:var(--muted);font-size:14px}
+.about summary{cursor:pointer;font-weight:600;color:var(--text)}
+.about p{margin:8px 0 0}
+
+.panel{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 14px);transform:translate(-50%,24px);opacity:0;pointer-events:none;width:min(640px,calc(100% - 24px));background:var(--text);color:var(--bg);border-radius:16px;padding:18px 20px;z-index:30;transition:transform .2s,opacity .2s;box-shadow:0 10px 40px rgba(0,0,0,.5);max-height:72vh;overflow:auto}
+.panel.on{transform:translate(-50%,0);opacity:1;pointer-events:auto}
+.panel h2{font-family:var(--display);font-size:20px;margin:0;line-height:1.2;padding-right:40px}
+.panel p{margin:3px 0 0}
+.panel .title{font-weight:600;font-size:15px;margin-top:4px}
+.panel .meta{font-size:14px;opacity:.82}
+.panel ul{margin:14px 0 0;padding:12px 0 0;list-style:none;display:grid;gap:6px;border-top:1px solid rgba(128,128,128,.35)}
+.panel li{display:flex;flex-wrap:wrap;gap:0 12px;font-size:15px}
+.panel li strong{min-width:96px}
+.panel .foot{margin-top:10px;font-size:13px;opacity:.7}
+.panel .x{position:absolute;top:12px;right:12px;width:36px;height:36px;border-radius:50%;border:0;background:rgba(128,128,128,.25);cursor:pointer;font-size:18px;line-height:1}
+.panel :focus-visible{outline-color:var(--pink)}
+.toast{position:fixed;left:50%;top:calc(env(safe-area-inset-top,0px) + 12px);transform:translateX(-50%);background:var(--text);color:var(--bg);padding:10px 16px;border-radius:12px;font-weight:600;font-size:14px;z-index:40;opacity:0;pointer-events:none;transition:opacity .2s}
+.toast.on{opacity:1}
+
+@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.intro .chip{animation:rise .45s both;animation-delay:calc(var(--d,0)*90ms)}
+@media (prefers-reduced-motion:reduce){.intro .chip{animation:none}.panel,.chip,.toast{transition:none}}
+
+@media (max-width:760px){
+  .wrap{padding:0 14px}
+  .hero{padding:20px 0 16px}
+  .days{display:flex}
+  .pbtn{flex:1 1 calc(50% - 8px);max-width:none}
+  .grid{grid-template-columns:78px 1fr;min-width:0}
+  .grid .off{display:none}
+  .scroller{overflow-x:visible}
+  .tools{margin-left:0}
+}
+
+@media print{
+  @page{size:A4 landscape;margin:10mm}
+  :root,:root[data-theme]{--bg:#fff;--surface:#fff;--surface-2:#fff;--line:#999;--text:#000;--muted:#333;--pink:#d6006f;--blue:#1f55e0;--green:#0f8a43;--green-text:#0b6e35;--purple:#7c2bd9;--purple-text:#5a16a8;--blue-text:#1739a8;--green-fill:#fff;--purple-fill:#fff;--blue-fill:#fff;--red:#c00}
+  .bar,.panel,.toast,.days,.about{display:none!important}
+  .hero{padding:0 0 8px}
+  .big{font-size:60px;text-shadow:.04em .04em 0 var(--blue)}
+  .hero h1{font-size:16px}
+  main{padding:8px 0 0}
+  .scroller{overflow:visible;border-radius:0}
+  .grid{grid-template-columns:62px repeat(5,1fr)!important;min-width:0}
+  .grid .off{display:block!important}
+  .dayhead{position:static;padding:5px;font-size:11px}
+  .cell{min-height:0;padding:3px;gap:3px;break-inside:avoid}
+  .chip{padding:2px 4px 2px 10px;border:1px solid var(--line);background:#fff!important}
+  .chip b{font-size:10px}.chip em,.chip .lec,.chip .tag{font-size:8px}
+  .time{padding:3px 4px;font-size:9px}
+  .has-sel .chip:not([aria-pressed="true"]){opacity:1}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+<header class="wrap hero">
+  <p class="big" aria-hidden="true">300</p>
+  <div class="hero-copy">
+    <h1>CSC, SEN and IFT timetable, first semester 2026/2027</h1>
+    <p>Anchor University, Lagos. FS teaching timetable, 2nd draft of 30 October 2026.</p>
+    <p id="summary"></p>
+  </div>
+</header>
+
+<div class="bar">
+  <div class="wrap">
+    <div class="progs" id="progs" role="group" aria-label="Programme"></div>
+    <div class="row">
+      <label class="search">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input id="q" type="search" placeholder="Search course, venue or lecturer" aria-label="Search by course, venue or lecturer" autocomplete="off">
+      </label>
+      <div class="tools">
+        <button class="btn" id="csv" type="button" title="Download as CSV" aria-label="Download the shown classes as a CSV file">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11m0 0-4-4m4 4 4-4M5 20h14"/></svg>
+        </button>
+        <button class="btn" id="print" type="button" title="Print" aria-label="Print the timetable">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 9V4h10v5M7 18H5a1 1 0 0 1-1-1v-6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v6a1 1 0 0 1-1 1h-2"/><rect x="7" y="14" width="10" height="6"/></svg>
+        </button>
+        <button class="btn" id="theme" type="button" title="Switch dark or light mode" aria-label="Switch between dark and light mode">
+          <svg id="themeIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"></svg>
+        </button>
+      </div>
+    </div>
+    <div class="days" id="days" role="group" aria-label="Day"></div>
+    <div class="status" id="status" aria-live="polite"></div>
+  </div>
+</div>
+
+<main class="wrap">
+  <div class="legend">
+    <span><i class="dot" style="background:var(--green)"></i><b>Green</b> CSC</span>
+    <span><i class="dot" style="background:var(--purple)"></i><b>Purple</b> IFT</span>
+    <span><i class="dot" style="background:var(--blue)"></i><b>Blue</b> SEN</span>
+    <span><i class="stripe"></i>Striped bar means shared by more than one programme, named under the course</span>
+  </div>
+  <div class="scroller"><div class="grid" id="grid"></div></div>
+  <details class="about">
+    <summary>About this timetable</summary>
+    <p>Only the courses on the 300-level course and lecturer list are shown. Other departments' courses are left out.</p>
+    <p>GST 311, ENT 311, TMC 311 and DHS 313 are taken by all three programmes, so they show under CSC, SEN and IFT as well as All. ENT 311 is offered by the ENT department.</p>
+    <p>AUL-CSC 317 and INS 312 are one class shared by CSC, SEN and IFT. IFT lists it as INS 312 with a different title, Human-Computer Interface.</p>
+    <p>When you pick a programme, any hour where two of its courses run at once is outlined in red as a clash.</p>
+    <p>No class is scheduled on Saturday. Friday follows the draft's own Friday header, which starts at 10:00 am. Where a class lists a venue in brackets that differs from the row it sits in, this page shows the bracketed venue.</p>
+    <p>This website was built by VeeKay #veekaybuilds</p>
+  </details>
+</main>
+
+<section class="panel" id="panel" role="dialog" aria-label="Course details" aria-live="polite">
+  <button class="x" id="close" type="button" aria-label="Close course details">&times;</button>
+  <h2 id="pTitle"></h2>
+  <p class="title" id="pName"></p>
+  <p class="meta" id="pLec"></p>
+  <p class="meta" id="pProg"></p>
+  <ul id="pList"></ul>
+  <p class="foot" id="pFoot"></p>
+</section>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+const DATA = [["DHS 313","Mon",14,"Uni Aud","Uni Aud",[]],["DHS 313","Mon",15,"Uni Aud","Uni Aud",[]],["SEN 312","Mon",14,"D106","D106",[]],["SEN 312","Mon",15,"D106","D106",[]],["CYB 312","Mon",11,"D307 Software Lab","D307 Software Lab",[]],["CYB 312","Mon",12,"D307 Software Lab","D307 Software Lab",[]],["AUL-CSC 317","Tue",16,"C307","C307",[]],["AUL-CSC 317","Tue",17,"C307","C307",[]],["ENT 311","Tue",11,"Uni Aud","Uni Aud",[]],["ENT 311","Tue",12,"Uni Aud","Uni Aud",[]],["AUL-CSC 315","Tue",8,"B307","B307",[]],["AUL-CSC 315","Tue",9,"B307","B307",[]],["DTS 314","Tue",10,"B307","B307",[]],["SEN 314","Tue",14,"B307","B307",[]],["SEN 314","Tue",15,"B307","B307",[]],["SEN 313","Tue",10,"D307 Software Lab","D307 Software Lab",[]],["SEN 313","Tue",11,"D307 Software Lab","D307 Software Lab",[]],["IFT 313","Tue",14,"D307 Software Lab","D307 Software Lab",[]],["IFT 313","Tue",15,"D307 Software Lab","D307 Software Lab",[]],["INS 312","Tue",16,"C307","D307 Software Lab",[]],["INS 312","Tue",17,"C307","D307 Software Lab",[]],["ENT 311","Wed",11,"Uni Aud","B010 BCH Lab",[]],["ENT 311","Wed",12,"Uni Aud","B010 BCH Lab",[]],["GST 311","Wed",8,"Uni Aud","Uni Aud",[]],["GST 311","Wed",9,"Uni Aud","Uni Aud",[]],["TMC 311","Wed",14,"Uni Aud","Uni Aud",[]],["CSC 311","Thu",16,"C307","C307",[]],["CSC 311","Thu",17,"C307","C307",[]],["DTS 314","Thu",8,"B307","B307",[]],["DTS 314","Thu",9,"B307","B307",[]],["IFT 310","Thu",10,"B307","B307",[]],["IFT 310","Thu",11,"B307","B307",[]],["AUL-CSC 313","Fri",15,"C307","C307",[]],["AUL-CSC 313","Fri",16,"C307","C307",[]],["CSC 311","Fri",16,"B307","B307",[]]];
+const PROGS = ["CSC","SEN","IFT"];
+const PNAME = {CSC:"Computer Science",SEN:"Software Engineering",IFT:"Information Technology"};
+const COL = {CSC:"green",IFT:"purple",SEN:"blue"};
+const ALL3 = ["CSC","SEN","IFT"];
+const COURSES = {
+  "CSC 311":{d:"CSC 311",t:"Operating Systems",u:3,l:"Prof Akinwale",p:ALL3},
+  "CYB 312":{d:"CYB 312",t:"Introduction to Cybersecurity and Strategy",u:2,l:"Dr Preye",p:["CSC"]},
+  "CSC 313":{d:"AUL-CSC 313",t:"System Analysis and Design",u:2,l:"Dr Uche",p:["CSC","IFT"]},
+  "DTS 314":{d:"DTS 314",t:"Data Management",u:3,l:"Dr E. Babalola",p:["CSC"]},
+  "CSC 315":{d:"AUL-CSC 315",t:"Data Analysis with R",u:2,l:"Maths Dept.",p:ALL3},
+  "GST 311":{d:"GST 311",t:"Peace and Conflict Resolution",u:2,l:null,p:ALL3,g:1},
+  "ENT 311":{d:"ENT 311",t:"Venture Creation",u:2,l:null,nol:"No lecturer",p:ALL3,g:1,dept:"ENT department"},
+  "TMC 311":{d:"AUL-TMC 311",t:"Total Man Concept V",u:1,l:null,p:ALL3,g:1},
+  "DHS 313":{d:"DHS 313",t:"Networking",u:1,l:null,p:ALL3,g:1},
+  "CSC 317":{d:"AUL-CSC 317",t:"Human Computer Interaction",u:2,l:"Dr Preye",p:ALL3,alt:{c:"INS 312",t:"Human-Computer Interface",p:"IFT"}},
+  "SEN 312":{d:"SEN 312",t:"Software Testing and Quality Assurance",u:2,l:"Dr D. Aleburu",p:["SEN"]},
+  "SEN 313":{d:"SEN 313",t:"Object-Oriented Analysis and Design",u:2,l:"Dr Preye",p:["SEN"]},
+  "SEN 314":{d:"SEN 314",t:"Software Construction",u:2,l:"Mr U. Umoren",p:["SEN"]},
+  "IFT 313":{d:"IFT 313",t:"Web Application Development",u:2,l:"Dr A. Mustapha",p:["IFT"]},
+  "IFT 310":{d:"IFT 310",t:"Mobile Application Development",u:2,l:"Dr A. Babalola",p:["IFT"]},
+};
+const DAYS=["Mon","Tue","Wed","Thu","Fri"];
+const FULL={Mon:"Monday",Tue:"Tuesday",Wed:"Wednesday",Thu:"Thursday",Fri:"Friday"};
+const S=DATA.slice().sort((x,y)=>(x[0]==="INS 312")-(y[0]==="INS 312")).map(([code,day,hour,venue,rowVenue,also])=>{
+  let base=code.replace("AUL-","");if(base==="INS 312")base="CSC 317";
+  const info=COURSES[base];
+  return {code:info.d,base,day,hour,venue,rowVenue,also,info,
+    short:venue.replace(/^([A-E]\d{3}) .*/,"$1")};
+}).filter((s,i,a)=>a.findIndex(x=>x.base===s.base&&x.day===s.day&&x.hour===s.hour&&x.venue===s.venue)===i);
+const HOURS=[];for(let h=Math.min(...S.map(s=>s.hour));h<=Math.max(...S.map(s=>s.hour));h++)HOURS.push(h);
+const state={q:"",prog:"all",sel:null,day:"Mon"};
+const $=id=>document.getElementById(id);
+
+function fmt(h,m=0){const ap=h>=12?"pm":"am";const hh=((h+11)%12)+1;return hh+(m?":"+String(m).padStart(2,"0"):"")+" "+ap}
+function lbl(h){const a=((h+11)%12)+1,b=((h+12)%12)+1,p1=h>=12?"pm":"am",p2=h+1>=12?"pm":"am";return p1===p2?a+"\u2013"+b+" "+p1:a+" "+p1+"\u2013"+b+" "+p2}
+function range(day,h1,h2){const endH=h2+1,endM=(day==="Mon"&&h2===17)?30:0;return fmt(h1)+" to "+fmt(endM?17:endH,endM)}
+function merge(list){
+  const by={};list.forEach(s=>{(by[s.base+"|"+s.day+"|"+s.venue]??=[]).push(s)});
+  const out=[];
+  Object.values(by).forEach(g=>{
+    g.sort((a,b)=>a.hour-b.hour);let cur=null;
+    g.forEach(s=>{if(cur&&s.hour===cur.last+1){cur.last=s.hour}else{cur={code:s.code,base:s.base,day:s.day,venue:s.venue,rowVenue:s.rowVenue,also:s.also,info:s.info,first:s.hour,last:s.hour};out.push(cur)}});
+  });
+  return out.sort((a,b)=>DAYS.indexOf(a.day)-DAYS.indexOf(b.day)||a.first-b.first);
+}
+function inProg(info,p){return p==="all"||info.p.includes(p)}
+function progCourses(p){return Object.values(COURSES).filter(c=>inProg(c,p)).length}
+function sharedTag(info){
+  if(info.g)return "All programmes";
+  return info.p.length>1?info.p.join(" \u00b7 ")+(info.alt?" (INS 312 in IFT)":""):"";
+}
+function barFor(info){
+  if(info.p.length===1)return null;
+  const cs=info.p.map(p=>"var(--"+COL[p]+")"),n=cs.length,seg=cs.map((c,i)=>c+" "+(i*100/n)+"% "+((i+1)*100/n)+"%");
+  return "linear-gradient(to bottom,"+seg.join(",")+")";
+}
+function visible(){
+  const q=state.q.toLowerCase().replace(/\s+/g,"");
+  return S.filter(s=>{
+    if(!inProg(s.info,state.prog))return false;
+    if(q){
+      const hay=(s.code+s.venue+FULL[s.day]+(s.info.l||"")+s.info.t+(s.info.alt?s.info.alt.c+s.info.alt.t:"")+s.info.p.join("")).toLowerCase().replace(/\s+/g,"");
+      if(!hay.includes(q))return false;
+    }
+    return true;
+  });
+}
+
+let first=true;
+function render(){
+  const vis=visible(),grid=$("grid");
+  grid.innerHTML="";
+  const corner=document.createElement("div");corner.className="corner";grid.appendChild(corner);
+  DAYS.forEach(d=>{const h=document.createElement("div");h.className="dayhead"+(d===state.day?"":" off");h.textContent=FULL[d];grid.appendChild(h)});
+  let clashes=0;
+  HOURS.forEach(hr=>{
+    const t=document.createElement("div");t.className="time";t.textContent=lbl(hr);grid.appendChild(t);
+    DAYS.forEach((d,di)=>{
+      const c=document.createElement("div");c.className="cell"+(d===state.day?"":" off");
+      const here=vis.filter(s=>s.day===d&&s.hour===hr).sort((a,b)=>a.code.localeCompare(b.code));
+      if(state.prog!=="all"&&here.length>1){
+        c.classList.add("clash");clashes++;
+        const tg=document.createElement("div");tg.className="clashtag";tg.textContent="Clash";c.appendChild(tg);
+      }
+      here.forEach(s=>{
+        const b=document.createElement("button");
+        b.type="button";b.style.setProperty("--d",di);b.dataset.code=s.base;
+        const single=s.info.p.length===1;
+        b.className="chip"+(single?" "+COL[s.info.p[0]]:"");
+        if(!single)b.style.setProperty("--bar",barFor(s.info));
+        b.setAttribute("aria-pressed",state.sel===s.base?"true":"false");
+        b.setAttribute("aria-label",s.code+", "+FULL[d]+" "+fmt(hr)+", "+s.venue+(s.info.l?", "+s.info.l:""));
+        const top=document.createElement("div");top.className="top";
+        const n=document.createElement("b");n.textContent=(s.info.alt&&state.prog===s.info.alt.p)?s.info.alt.c:s.code;
+        const v=document.createElement("em");v.textContent=s.short;
+        top.append(n,v);b.appendChild(top);
+        const l=document.createElement("span");l.className="lec"+(s.info.l?"":" none");
+        l.textContent=s.info.l?s.info.l:(s.info.nol?s.info.nol+", "+s.info.dept:"Lecturer not listed");b.appendChild(l);
+        const tag=sharedTag(s.info);
+        if(tag){const g=document.createElement("span");g.className="tag";g.textContent=tag;b.appendChild(g)}
+        c.appendChild(b);
+      });
+      grid.appendChild(c);
+    });
+  });
+  if(!vis.length){
+    const e=document.createElement("div");e.className="empty";e.style.gridColumn="1 / -1";
+    e.innerHTML="<strong>No class matches</strong>Clear the search or pick All to see the full week.";
+    grid.appendChild(e);
+  }
+  grid.classList.toggle("intro",first);first=false;
+  document.body.classList.toggle("has-sel",!!state.sel);
+  document.querySelectorAll(".pbtn").forEach(b=>b.setAttribute("aria-pressed",b.dataset.p===state.prog));
+  const courses=new Set(vis.map(s=>s.base)).size;
+  let msg="";
+  if(state.prog!=="all"){
+    msg=PNAME[state.prog]+": "+courses+" courses, "+vis.length+" class hours. "+
+      (state.q?"":(clashes?clashes+(clashes===1?" hour has":" hours have")+" two courses at once, outlined in red.":"No two courses overlap."));
+  }
+  if(state.q)msg=(msg?msg+" ":"")+"Searching for \u201c"+state.q+"\u201d. <button type='button' id='reset'>Clear search</button>";
+  $("status").innerHTML=msg;
+  if($("reset"))$("reset").onclick=()=>{state.q="";$("q").value="";render()};
+  window.__vis=vis;
+}
+function drawProgs(){
+  const box=$("progs");box.innerHTML="";
+  const mk=(p,label,count)=>{
+    const b=document.createElement("button");b.type="button";b.className="pbtn";b.dataset.p=p;
+    if(p!=="all")b.style.setProperty("--c","var(--"+COL[p]+")");
+    const ic=document.createElement("span");
+    if(p==="all"){ic.className="tri";ic.innerHTML='<i style="background:var(--green)"></i><i style="background:var(--purple)"></i><i style="background:var(--blue)"></i>'}
+    else{ic.className="dot";ic.style.background="var(--"+COL[p]+")"}
+    if(p!=="all"){ic.style.outline="2px solid color-mix(in srgb,var(--on) 55%,transparent)";ic.style.outlineOffset="0"}
+    const t=document.createElement("span");t.textContent=label;
+    const s=document.createElement("small");s.textContent=count+" courses";
+    b.append(ic,t,s);
+    b.onclick=()=>{state.prog=p;render()};
+    box.appendChild(b);
+  };
+  mk("all","All",progCourses("all"));
+  PROGS.forEach(p=>mk(p,p,progCourses(p)));
+}
+function drawDays(){
+  const box=$("days");box.innerHTML="";
+  DAYS.forEach(d=>{const b=document.createElement("button");b.type="button";b.textContent=d;b.setAttribute("aria-pressed",d===state.day);b.onclick=()=>{state.day=d;drawDays();render()};box.appendChild(b)});
+}
+function joinAnd(a){return a.length<2?a.join(""):a.slice(0,-1).join(", ")+" and "+a[a.length-1]}
+function openPanel(base){
+  state.sel=base;
+  const all=S.filter(s=>s.base===base),m=merge(all),f=all[0],info=f.info;
+  $("pTitle").textContent=info.d+(info.alt?" / "+info.alt.c:"");
+  $("pName").textContent=(info.alt?info.t+" (CSC and SEN) / "+info.alt.t+" ("+info.alt.p+")":info.t)+", "+info.u+(info.u===1?" unit":" units");
+  $("pLec").textContent=info.nol?"No lecturer. This is an "+info.dept+" course.":"Lecturer: "+(info.l||"not listed");
+  $("pProg").textContent=info.g?"Taken by all three programmes (CSC, SEN and IFT)."
+    :info.p.length>1?"Shared by "+joinAnd(info.p)+"."+(info.alt?" IFT lists it as "+info.alt.c+", with a different title.":""):"Programme: "+info.p[0]+" only.";
+  const ul=$("pList");ul.innerHTML="";
+  m.forEach(x=>{
+    const li=document.createElement("li");
+    const a=document.createElement("strong");a.textContent=FULL[x.day];
+    const b=document.createElement("span");
+    b.textContent=range(x.day,x.first,x.last)+", "+x.venue+(x.venue!==x.rowVenue?" (sits under "+x.rowVenue+" in the draft)":"");
+    li.append(a,b);ul.appendChild(li);
+  });
+  const hours=all.length,also=[...new Set(all.flatMap(s=>s.also))];
+  $("pFoot").textContent=hours+(hours===1?" hour":" hours")+" a week."+(info.note?" "+info.note:"")+(also.length?" Shares its slot with "+also.join(", ")+".":"");
+  $("panel").classList.add("on");
+  render();
+}
+function closePanel(){state.sel=null;$("panel").classList.remove("on");render()}
+function toast(t){const e=$("toast");e.textContent=t;e.classList.add("on");clearTimeout(toast._t);toast._t=setTimeout(()=>e.classList.remove("on"),3200)}
+
+$("grid").addEventListener("click",e=>{const c=e.target.closest(".chip");if(!c)return;state.sel===c.dataset.code?closePanel():openPanel(c.dataset.code)});
+$("close").onclick=closePanel;
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&state.sel)closePanel()});
+$("q").addEventListener("input",e=>{state.q=e.target.value.trim();render()});
+
+const SUN='<circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M5 5l1.5 1.5M17.5 17.5 19 19M3 12h2M19 12h2M5 19l1.5-1.5M17.5 6.5 19 5"/>';
+const MOON='<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>';
+function setTheme(t){document.documentElement.dataset.theme=t;$("themeIcon").innerHTML=t==="dark"?SUN:MOON;try{localStorage.setItem("tt-theme",t)}catch(_){}}
+let saved=null;try{saved=localStorage.getItem("tt-theme")}catch(_){}
+setTheme(saved==="light"?"light":"dark");
+$("theme").onclick=()=>setTheme(document.documentElement.dataset.theme==="dark"?"light":"dark");
+$("print").onclick=()=>{try{window.print()}catch(_){toast("Printing is not available here. Use your browser's print command instead.")}};
+
+function csvCell(v){v=String(v);return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v}
+$("csv").onclick=async()=>{
+  const rows=merge(window.__vis||S);
+  if(!rows.length){toast("Nothing to download. Clear the search first.");return}
+  const lines=[["Course","Title","Lecturer","Programmes","Day","Start","End","Venue"]];
+  rows.forEach(x=>{
+    const endH=x.last+1,endM=(x.day==="Mon"&&x.last===17)?30:0;
+    lines.push([x.code+(x.info.alt?" / "+x.info.alt.c:""),x.info.t+(x.info.alt?" / "+x.info.alt.t:""),x.info.l||(x.info.nol?"None":"Not listed"),x.info.p.join(" / "),FULL[x.day],fmt(x.first),fmt(endM?17:endH,endM),x.venue]);
+  });
+  const text="\uFEFF"+lines.map(r=>r.map(csvCell).join(",")).join("\r\n");
+  try{
+    const dl=await claude.use("downloads");
+    if(!dl){toast("Downloads are not available in this view. Use Print and save as PDF instead.");return}
+    await dl.save({filename:"csc-sen-ift-300-level-timetable.csv",data:text});
+    toast("Timetable saved");
+  }catch(err){
+    if(err&&err.code==="declined")return;
+    toast("The file could not be saved. Use Print and save as PDF instead.");
+  }
+};
+
+$("summary").innerHTML="<strong>"+Object.keys(COURSES).length+" courses</strong> across CSC, SEN and IFT, with "+S.length+" class hours from Monday to Friday.";
+drawProgs();drawDays();render();
+</script>
+</body>
+</html>
